@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}"> <!-- Include print styles -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+    <title>Online PDF Creator</title>
+</head>
+<body>
+    <h1>Create Your PDF</h1>
+
+    <button id="markdownToggle">Switch to Markdown Editor</button>
+
+    <!-- Container for Toast UI Editor -->
+    <div id="editor"></div>
+
+    <button id="generate">Generate PDF</button>
+
+    <script>
+        $(document).ready(function() {
+            const editor = new toastui.Editor({
+                el: document.querySelector('#editor'),
+                height: '500px',
+                initialEditType: 'markdown',
+                previewStyle: 'vertical',
+            });
+
+            $('#generate').on('click', function() {
+                const htmlContent = editor.getHTML(); // Get HTML content directly
+
+                $.ajax({
+                    url: '/generate_pdf',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ content: htmlContent }),
+                    success: function(data) {
+                        const blob = new Blob([data], { type: 'application/pdf' });
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = 'output.pdf';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    },
+                    error: function(err) {
+                        console.error(err);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

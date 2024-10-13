@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#editor {
+    margin-top: 20px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+}

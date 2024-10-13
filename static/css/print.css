@@ -1,0 +1,29 @@
+@page {
+    size: A4; /* Set the page size */
+    margin: 20mm; /* Set margins */
+}
+
+body {
+    font-family: Arial, sans-serif; /* Set font */
+    line-height: 1.5; /* Improve readability */
+    padding: 10mm; /* Add padding to body */
+}
+
+.container {
+    max-width: 100%; /* Ensure container doesn't exceed page width */
+}
+
+h1, h2, h3 {
+    margin-top: 20px; /* Add space above headings */
+}
+
+p {
+    margin-bottom: 10px; /* Add space below paragraphs */
+}
+
+img {
+    max-width: 100%; /* Ensure images are responsive */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Prevent inline spacing issues */
+    margin: 0 auto; /* Center images if needed */
+}
